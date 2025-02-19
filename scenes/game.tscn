@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=3 uid="uid://dtqrpp6qv66ti"]
+[gd_scene load_steps=3 format=3 uid="uid://dtqrpp6qv66ti"]
 
 [ext_resource type="PackedScene" uid="uid://wwokyehpeig6" path="res://scenes/player.tscn" id="1_4xqgb"]
+[ext_resource type="PackedScene" uid="uid://dot3xp4miy68p" path="res://scenes/animal.tscn" id="2_ytoqi"]
 
 [node name="Game" type="Node2D"]
 
@@ -9,3 +10,9 @@ position = Vector2(153, 114)
 
 [node name="Camera2D" type="Camera2D" parent="."]
 position = Vector2(154, 118)
+
+[node name="Animal" parent="." instance=ExtResource("2_ytoqi")]
+position = Vector2(484, 141)
+
+[node name="Animal2" parent="." instance=ExtResource("2_ytoqi")]
+position = Vector2(487, 209)

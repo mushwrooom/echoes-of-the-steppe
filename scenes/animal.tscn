@@ -1,0 +1,28 @@
+[gd_scene load_steps=5 format=3 uid="uid://dot3xp4miy68p"]
+
+[ext_resource type="Texture2D" uid="uid://bp0ysvgs60dot" path="res://icon.svg" id="1_7d2d5"]
+[ext_resource type="Script" path="res://scenes/Animal.cs" id="1_vphgp"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_sinbp"]
+radius = 30.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_up2ls"]
+radius = 203.686
+
+[node name="Animal" type="RigidBody2D"]
+script = ExtResource("1_vphgp")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("1_7d2d5")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_sinbp")
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("CircleShape2D_up2ls")
+
+[connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]
+[connection signal="body_exited" from="Area2D" to="." method="_on_area_2d_body_exited"]
