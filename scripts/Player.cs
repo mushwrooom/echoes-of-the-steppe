@@ -3,12 +3,12 @@ using System;
 
 public partial class Player : CharacterBody2D
 {
-	[Export]
-    public int Speed { get; set; } = 400;
+	[Export] public float Speed { get; set; } = 400.0f;
+    [Export] public float HerdRadius = 120.0f;
+    [Export] public float InfluenceStrength = 0.5f;
 
     public void GetInput()
     {
-
         Vector2 inputDirection = Input.GetVector("left", "right", "up", "down");
         Velocity = inputDirection * Speed;
     }
@@ -17,5 +17,14 @@ public partial class Player : CharacterBody2D
     {
         GetInput();
         MoveAndSlide();
+        
+        foreach (Node node in GetTree().GetNodesInGroup("animals"))
+        {
+            if (node is Animal animal && Position.DistanceTo(animal.Position) < HerdRadius)
+            {
+                Vector2 pushDirection = (animal.Position - Position).Normalized();
+                animal.Velocity += pushDirection * (InfluenceStrength / Velocity.Length());
+            }
+        }
     }
 }

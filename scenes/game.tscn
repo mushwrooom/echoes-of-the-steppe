@@ -7,12 +7,13 @@
 
 [node name="Player" parent="." instance=ExtResource("1_4xqgb")]
 position = Vector2(153, 114)
+InfluenceStrength = 1.325
 
 [node name="Camera2D" type="Camera2D" parent="."]
 position = Vector2(154, 118)
 
 [node name="Animal" parent="." instance=ExtResource("2_ytoqi")]
-position = Vector2(484, 141)
+position = Vector2(389, 286)
 
 [node name="Animal2" parent="." instance=ExtResource("2_ytoqi")]
-position = Vector2(487, 209)
+position = Vector2(494, 269)
