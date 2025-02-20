@@ -1,20 +1,44 @@
-[gd_scene load_steps=5 format=3 uid="uid://dot3xp4miy68p"]
+[gd_scene load_steps=8 format=3 uid="uid://dot3xp4miy68p"]
 
-[ext_resource type="Texture2D" uid="uid://bp0ysvgs60dot" path="res://icon.svg" id="1_7d2d5"]
 [ext_resource type="Script" path="res://scripts/Animal.cs" id="1_8xk4w"]
+[ext_resource type="Texture2D" uid="uid://dnhcmqswri3u0" path="res://assets/Cute_Fantasy/Animals/Sheep/Sheep_01.png" id="2_x2gta"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_x2s28"]
+atlas = ExtResource("2_x2gta")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_yblfx"]
+atlas = ExtResource("2_x2gta")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_nky51"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_x2s28")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_yblfx")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 4.0
+}]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_sinbp"]
-radius = 30.0
+radius = 5.0
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_up2ls"]
-radius = 203.686
+radius = 60.0
 
 [node name="Animal" type="CharacterBody2D" groups=["animals"]]
 script = ExtResource("1_8xk4w")
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
-scale = Vector2(0.5, 0.5)
-texture = ExtResource("1_7d2d5")
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+scale = Vector2(-1, 1)
+sprite_frames = SubResource("SpriteFrames_nky51")
+animation = &"idle"
+autoplay = "idle"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_sinbp")
