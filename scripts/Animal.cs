@@ -11,20 +11,20 @@ public partial class Animal : CharacterBody2D
     private Vector2 _targetVelocity = Vector2.Zero;
     Player _player = null;
     List<Animal> collective = new List<Animal>();
-    private void _on_area_2d_body_entered(Node2D body)
+    AnimatedSprite2D animatedSprite2D;
+
+    public override void _Ready()
     {
-        if (body is Player player)
-            _player = player;
-        else if (body is Animal animal)
-            collective.Add(animal);
+        animatedSprite2D = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
     }
-    private void _on_area_2d_body_exited(Node2D body)
+    public int GetDirection()
     {
-        if (body is Player _)
-            _player = null;
-        else if (body is Animal animal)
-            collective.Remove(animal);
+        if (Velocity.Length() < 0.5f)
+            return 0;
+
+        return Velocity.X > 0 ? 1 : -1;
     }
+    
     public override void _Process(double delta)
     {
         Vector2 center = Vector2.Zero;
@@ -59,5 +59,31 @@ public partial class Animal : CharacterBody2D
 
         Velocity = Velocity.Lerp(_targetVelocity, 0.1f);
         MoveAndSlide();
+
+        if(GetDirection() == 0)
+        {
+            animatedSprite2D.Play("idle");
+        }
+        else
+        {
+            animatedSprite2D.Play("running");
+            animatedSprite2D.FlipH = GetDirection() != 1;
+        }
+    }
+
+
+    private void _on_area_2d_body_entered(Node2D body)
+    {
+        if (body is Player player)
+            _player = player;
+        else if (body is Animal animal)
+            collective.Add(animal);
+    }
+    private void _on_area_2d_body_exited(Node2D body)
+    {
+        if (body is Player _)
+            _player = null;
+        else if (body is Animal animal)
+            collective.Remove(animal);
     }
 }
