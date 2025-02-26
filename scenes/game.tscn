@@ -1,9 +1,11 @@
-[gd_scene load_steps=5 format=4 uid="uid://dtqrpp6qv66ti"]
+[gd_scene load_steps=7 format=4 uid="uid://dtqrpp6qv66ti"]
 
 [ext_resource type="TileSet" uid="uid://cbknujstj8fdf" path="res://assets/tile_sets/grass.tres" id="1_1wtsr"]
 [ext_resource type="PackedScene" uid="uid://wwokyehpeig6" path="res://scenes/player.tscn" id="1_4xqgb"]
 [ext_resource type="PackedScene" uid="uid://dot3xp4miy68p" path="res://scenes/animal.tscn" id="2_ytoqi"]
-[ext_resource type="PackedScene" uid="uid://cm613gjfortm5" path="res://scenes/ger.tscn" id="3_seumt"]
+[ext_resource type="PackedScene" path="res://scenes/ger.tscn" id="3_seumt"]
+[ext_resource type="Script" path="res://scripts/WeatherSystem.cs" id="5_s1yc1"]
+[ext_resource type="Script" path="res://scripts/TimeManager.cs" id="6_empg8"]
 
 [node name="Game" type="Node2D"]
 
@@ -41,3 +43,12 @@ position = Vector2(-31, -105)
 [node name="Camera2D" type="Camera2D" parent="Player"]
 zoom = Vector2(1.7, 1.7)
 position_smoothing_enabled = true
+
+[node name="WeatherSystem" type="Node" parent="."]
+script = ExtResource("5_s1yc1")
+
+[node name="TimeManager" type="Node" parent="."]
+script = ExtResource("6_empg8")
+
+[connection signal="SeasonChanged" from="TimeManager" to="WeatherSystem" method="OnSeasonChanged"]
+[connection signal="TimeOfDayChanged" from="TimeManager" to="Player" method="OnTimeOfDayChanged"]
