@@ -2,6 +2,7 @@ using Godot;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.IO.IsolatedStorage;
 
 public partial class Animal : CharacterBody2D
 {
@@ -9,17 +10,19 @@ public partial class Animal : CharacterBody2D
     [Export] public float DetectionRadius = 50.0f;
     [Export] public float CohesionStrength = 1.0f;
 
-    private Vector2 _targetVelocity = Vector2.Zero;
+    float hunger = 100;
+
+
+    Vector2 _targetVelocity = Vector2.Zero;
     Player _player = null;
-    List<Animal> collective = new List<Animal>();
     AnimatedSprite2D _animatedSprite2D;
-    TimeManager _timeManager;
-    String playingAnimation = "idle";
+    ProgressBar _hungerBar;
+    bool isOnPasture = false;
 
     public override void _Ready()
     {
         _animatedSprite2D = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
-        _timeManager = GetNode<TimeManager>("/root/Game/TimeManager");
+        _hungerBar = GetNode<ProgressBar>("HungerBar");
     }
     public int GetVelocityDirection()
     {
@@ -65,15 +68,20 @@ public partial class Animal : CharacterBody2D
         MoveAndSlide();
 
         UpdateAnimation();
+        UpdateHunger((float)delta);
     }
 
     private void UpdateAnimation()
     {
         if (GetVelocityDirection() == 0)
         {
-            if (_timeManager.CurrentTimeOfDay == TimeManager.TimeOfDay.Night)
+            if (Utils.Instance.IsNight())
             {
                 _animatedSprite2D.Play("sleeping");
+            }
+            else if (isOnPasture)
+            {
+                _animatedSprite2D.Play("grazing");
             }
             else
                 _animatedSprite2D.Play("idle");
@@ -85,18 +93,36 @@ public partial class Animal : CharacterBody2D
         }
     }
 
+    private void UpdateHunger(float delta)
+    {
+        bool willGraze = !Utils.Instance.IsNight() &&
+                         isOnPasture && hunger < 100;
+
+        if (willGraze)
+        {
+            hunger = Mathf.Min(hunger + 2 * delta, 100);
+        }
+        else
+        {
+            hunger = Mathf.Max(hunger - delta, 0);
+        }
+
+        _hungerBar.Visible = willGraze || hunger < 50;
+        _hungerBar.Value = _hungerBar.MaxValue * (hunger / 100.0f);
+    }
+
     private void _on_area_2d_body_entered(Node2D body)
     {
         if (body is Player player)
             _player = player;
-        else if (body is Animal animal)
-            collective.Add(animal);
+        else if (body.Name == "Pasture")
+            isOnPasture = true;
     }
     private void _on_area_2d_body_exited(Node2D body)
     {
         if (body is Player _)
             _player = null;
-        else if (body is Animal animal)
-            collective.Remove(animal);
+        else if (body.Name == "Pasture")
+            isOnPasture = false;
     }
 }

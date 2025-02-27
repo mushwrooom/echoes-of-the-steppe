@@ -1,7 +1,13 @@
-[gd_scene load_steps=40 format=3 uid="uid://dot3xp4miy68p"]
+[gd_scene load_steps=42 format=3 uid="uid://dot3xp4miy68p"]
 
 [ext_resource type="Script" path="res://scripts/Animal.cs" id="1_8xk4w"]
 [ext_resource type="Texture2D" uid="uid://dnhcmqswri3u0" path="res://assets/Cute_Fantasy/Animals/Sheep/Sheep_01.png" id="2_x2gta"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_nh8l7"]
+bg_color = Color(0.0562916, 0.0562916, 0.0562916, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hiyqb"]
+bg_color = Color(0, 0.6, 0.18, 1)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_hw5rg"]
 atlas = ExtResource("2_x2gta")
@@ -278,17 +284,30 @@ radius = 60.0
 [node name="Animal" type="CharacterBody2D" groups=["animals"]]
 script = ExtResource("1_8xk4w")
 
+[node name="HungerBar" type="ProgressBar" parent="."]
+visible = false
+offset_left = -13.0
+offset_top = -14.0
+offset_right = 13.0
+offset_bottom = -7.0
+theme_override_styles/background = SubResource("StyleBoxFlat_nh8l7")
+theme_override_styles/fill = SubResource("StyleBoxFlat_hiyqb")
+show_percentage = false
+
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 scale = Vector2(-1, 1)
 sprite_frames = SubResource("SpriteFrames_nky51")
 animation = &"sleeping"
 autoplay = "idle"
-frame_progress = 0.621471
+frame_progress = 0.4192
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+visible = false
 shape = SubResource("CircleShape2D_sinbp")
 
 [node name="Area2D" type="Area2D" parent="."]
+visible = false
+collision_mask = 3
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
 shape = SubResource("CircleShape2D_up2ls")

@@ -1,9 +1,16 @@
-[gd_scene load_steps=3 format=3 uid="uid://cm613gjfortm5"]
+[gd_scene load_steps=5 format=3 uid="uid://cm613gjfortm5"]
 
 [ext_resource type="Texture2D" uid="uid://dcxux5fhocyws" path="res://assets/other/ger.png" id="1_qc12n"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_o7oci"]
 radius = 38.62
+
+[sub_resource type="Gradient" id="Gradient_usn2b"]
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_m36cp"]
+gradient = SubResource("Gradient_usn2b")
+width = 30
+height = 15
 
 [node name="Ger" type="StaticBody2D"]
 
@@ -13,4 +20,13 @@ texture = ExtResource("1_qc12n")
 offset = Vector2(0, 26)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+visible = false
 shape = SubResource("CircleShape2D_o7oci")
+
+[node name="PointLight2D" type="PointLight2D" parent="."]
+position = Vector2(0, 30)
+rotation = -1.5708
+color = Color(1, 0.705882, 0.470588, 1)
+energy = 0.0
+texture = SubResource("GradientTexture2D_m36cp")
+offset = Vector2(-15, 0)

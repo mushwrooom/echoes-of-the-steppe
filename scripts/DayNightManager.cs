@@ -3,6 +3,7 @@ using System;
 
 public partial class DayNightManager : CanvasModulate
 {
+	private PointLight2D _gerLight;
 	private TimeManager _timeManager;
 
 	private readonly Color MorningColor = new Color(1.0f, 0.9f, 0.7f, 1.0f);  // Warm sunrise
@@ -14,6 +15,7 @@ public partial class DayNightManager : CanvasModulate
 
 	public override void _Ready()
 	{
+		_gerLight = GetNode<PointLight2D>("/root/Game/Ger/PointLight2D");
 		_timeManager = GetNode<TimeManager>("/root/Game/TimeManager");
 
 		Color = MorningColor;
@@ -23,6 +25,11 @@ public partial class DayNightManager : CanvasModulate
 	public override void _Process(double delta)
 	{
 		Color = Color.Lerp(_targetColor, 0.01f);
+
+		if(_targetColor == NightColor)
+			_gerLight.Energy = Mathf.Lerp(_gerLight.Energy, 1.0f, 0.01f);
+		else
+			_gerLight.Energy = 0;
 	}
 
 	private void OnTimeChanged(int newTime)
