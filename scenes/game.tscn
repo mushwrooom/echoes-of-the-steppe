@@ -1,11 +1,12 @@
-[gd_scene load_steps=7 format=4 uid="uid://dtqrpp6qv66ti"]
+[gd_scene load_steps=8 format=4 uid="uid://dtqrpp6qv66ti"]
 
 [ext_resource type="TileSet" uid="uid://cbknujstj8fdf" path="res://assets/tile_sets/grass.tres" id="1_1wtsr"]
 [ext_resource type="PackedScene" uid="uid://wwokyehpeig6" path="res://scenes/player.tscn" id="1_4xqgb"]
 [ext_resource type="PackedScene" uid="uid://dot3xp4miy68p" path="res://scenes/animal.tscn" id="2_ytoqi"]
-[ext_resource type="PackedScene" path="res://scenes/ger.tscn" id="3_seumt"]
+[ext_resource type="PackedScene" uid="uid://cm613gjfortm5" path="res://scenes/ger.tscn" id="3_seumt"]
 [ext_resource type="Script" path="res://scripts/WeatherSystem.cs" id="5_s1yc1"]
 [ext_resource type="Script" path="res://scripts/TimeManager.cs" id="6_empg8"]
+[ext_resource type="Script" path="res://scripts/DayNightManager.cs" id="7_ikgxx"]
 
 [node name="Game" type="Node2D"]
 
@@ -23,16 +24,18 @@ tile_set = ExtResource("1_1wtsr")
 tile_map_data = PackedByteArray("AAAWAP7/AAAHAAkAAAAXAP//AAAHAAkAAAAYAPz/AAAHAAkAAAAXAPz/AAAHAAkAAAAWAPz/AAAHAAkAAAAWAP3/AAAHAAkAAAAWAAAAAAAHAAkAAAAVAAAAAAAHAAkAAAAUAAAAAAAHAAkAAAAWAAEAAAAHAAkAAAATAAEAAAAHAAkAAAAUAP7/AAAHAAkAAAAZAP//AAAHAAkAAAAYAP//AAAHAAkAAAAYAAAAAAAHAAkAAAAYAAEAAAAHAAkAAAAXAAEAAAAHAAkAAAAaAP7/AAAHAAkAAAAaAP3/AAAHAAkAAAATAP//AAAMABgAAAATAP7/AAAMABcAAAATAP3/AAAMABcAAAATAPz/AAAMABcAAAATAPv/AAAMABcAAAATAPr/AAAMABYAAAASAP//AAALABgAAAASAP7/AAALABcAAAASAP3/AAALABcAAAASAPz/AAALABcAAAASAPv/AAALABcAAAASAPr/AAALABYAAAARAP//AAALABgAAAARAP7/AAALABcAAAARAP3/AAALABcAAAARAPz/AAALABcAAAARAPv/AAALABcAAAARAPr/AAALABYAAAAQAP//AAALABgAAAAQAP7/AAALABcAAAAQAP3/AAALABcAAAAQAPz/AAALABcAAAAQAPv/AAALABcAAAAQAPr/AAALABYAAAAPAP//AAAKABgAAAAPAPr/AAAKABYAAAAPAP7/AAAJABkAAAAPAPv/AAAIABkAAAA=")
 tile_set = ExtResource("1_1wtsr")
 
-[node name="Animal" parent="." instance=ExtResource("2_ytoqi")]
+[node name="Animals" type="Node2D" parent="."]
+
+[node name="Animal" parent="Animals" instance=ExtResource("2_ytoqi")]
 position = Vector2(147, 56)
 
-[node name="Animal2" parent="." instance=ExtResource("2_ytoqi")]
+[node name="Animal2" parent="Animals" instance=ExtResource("2_ytoqi")]
 position = Vector2(154, 32)
 
-[node name="Animal3" parent="." instance=ExtResource("2_ytoqi")]
+[node name="Animal3" parent="Animals" instance=ExtResource("2_ytoqi")]
 position = Vector2(184, 54)
 
-[node name="Animal4" parent="." instance=ExtResource("2_ytoqi")]
+[node name="Animal4" parent="Animals" instance=ExtResource("2_ytoqi")]
 position = Vector2(-166, 3)
 
 [node name="Ger" parent="." instance=ExtResource("3_seumt")]
@@ -49,6 +52,11 @@ script = ExtResource("5_s1yc1")
 
 [node name="TimeManager" type="Node" parent="."]
 script = ExtResource("6_empg8")
+DayLength = 10.0
+
+[node name="CanvasModulate" type="CanvasModulate" parent="."]
+script = ExtResource("7_ikgxx")
 
 [connection signal="SeasonChanged" from="TimeManager" to="WeatherSystem" method="OnSeasonChanged"]
 [connection signal="TimeOfDayChanged" from="TimeManager" to="Player" method="OnTimeOfDayChanged"]
+[connection signal="TimeOfDayChanged" from="TimeManager" to="CanvasModulate" method="OnTimeChanged"]

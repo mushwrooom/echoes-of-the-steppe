@@ -1,0 +1,47 @@
+using Godot;
+using System;
+
+public partial class DayNightManager : CanvasModulate
+{
+	private TimeManager _timeManager;
+
+	private readonly Color MorningColor = new Color(1.0f, 0.9f, 0.7f, 1.0f);  // Warm sunrise
+	private readonly Color AfternoonColor = new Color(1.0f, 1.0f, 1.0f, 1.0f); // Neutral daylight
+	private readonly Color EveningColor = new Color(0.8f, 0.6f, 0.5f, 1.0f);  // Orange sunset
+	private readonly Color NightColor = new Color(0.2f, 0.2f, 0.4f, 1.0f);   // Dark blue night
+
+	private Color _targetColor;
+
+	public override void _Ready()
+	{
+		_timeManager = GetNode<TimeManager>("/root/Game/TimeManager");
+
+		Color = MorningColor;
+		OnTimeChanged((int)_timeManager.CurrentTimeOfDay);
+	}
+
+	public override void _Process(double delta)
+	{
+		Color = Color.Lerp(_targetColor, 0.01f);
+	}
+
+	private void OnTimeChanged(int newTime)
+	{
+		TimeManager.TimeOfDay time = (TimeManager.TimeOfDay)newTime;
+		switch (time)
+		{
+			case TimeManager.TimeOfDay.Morning:
+				_targetColor = MorningColor;
+				break;
+			case TimeManager.TimeOfDay.Afternoon:
+				_targetColor = AfternoonColor;
+				break;
+			case TimeManager.TimeOfDay.Evening:
+				_targetColor = EveningColor;
+				break;
+			case TimeManager.TimeOfDay.Night:
+				_targetColor = NightColor;
+				break;
+		}
+	}
+}

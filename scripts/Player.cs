@@ -63,14 +63,18 @@ public partial class Player : CharacterBody2D
 
     private void _on_area_2d_body_entered(Node2D body)
     {
-        if (body.Name == "Ger") {
+        if (body.Name == "Ger")
+        {
             Sleep();
-            
+
         }
     }
 
-    private void OnTimeOfDayChanged(TimeManager.TimeOfDay newTime) {
-        if(newTime == TimeManager.TimeOfDay.Night && !_isSleeping) {
+    private void OnTimeOfDayChanged(int newTime)
+    {
+        if ((TimeManager.TimeOfDay)newTime == TimeManager.TimeOfDay.Night
+            && !_isSleeping)
+        {
             GD.Print("Go to bed!");
         }
     }

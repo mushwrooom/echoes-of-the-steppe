@@ -1,4 +1,4 @@
-[gd_scene load_steps=32 format=3 uid="uid://dot3xp4miy68p"]
+[gd_scene load_steps=40 format=3 uid="uid://dot3xp4miy68p"]
 
 [ext_resource type="Script" path="res://scripts/Animal.cs" id="1_8xk4w"]
 [ext_resource type="Texture2D" uid="uid://dnhcmqswri3u0" path="res://assets/Cute_Fantasy/Animals/Sheep/Sheep_01.png" id="2_x2gta"]
@@ -107,6 +107,38 @@ region = Rect2(192, 32, 32, 32)
 atlas = ExtResource("2_x2gta")
 region = Rect2(224, 32, 32, 32)
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_46wlo"]
+atlas = ExtResource("2_x2gta")
+region = Rect2(0, 224, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ln24g"]
+atlas = ExtResource("2_x2gta")
+region = Rect2(32, 224, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6j3n6"]
+atlas = ExtResource("2_x2gta")
+region = Rect2(64, 224, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_on728"]
+atlas = ExtResource("2_x2gta")
+region = Rect2(96, 224, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_a3kgv"]
+atlas = ExtResource("2_x2gta")
+region = Rect2(128, 224, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4fgll"]
+atlas = ExtResource("2_x2gta")
+region = Rect2(160, 224, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_b014g"]
+atlas = ExtResource("2_x2gta")
+region = Rect2(192, 224, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ga4qf"]
+atlas = ExtResource("2_x2gta")
+region = Rect2(224, 224, 32, 32)
+
 [sub_resource type="SpriteFrames" id="SpriteFrames_nky51"]
 animations = [{
 "frames": [{
@@ -206,6 +238,35 @@ animations = [{
 "loop": true,
 "name": &"running",
 "speed": 9.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_46wlo")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ln24g")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6j3n6")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_on728")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_a3kgv")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4fgll")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_b014g")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ga4qf")
+}],
+"loop": true,
+"name": &"sleeping",
+"speed": 8.0
 }]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_sinbp"]
@@ -220,9 +281,9 @@ script = ExtResource("1_8xk4w")
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 scale = Vector2(-1, 1)
 sprite_frames = SubResource("SpriteFrames_nky51")
-animation = &"eating"
+animation = &"sleeping"
 autoplay = "idle"
-frame_progress = 0.0524518
+frame_progress = 0.621471
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_sinbp")

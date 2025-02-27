@@ -1,6 +1,7 @@
 using Godot;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 
 public partial class Animal : CharacterBody2D
 {
@@ -11,20 +12,23 @@ public partial class Animal : CharacterBody2D
     private Vector2 _targetVelocity = Vector2.Zero;
     Player _player = null;
     List<Animal> collective = new List<Animal>();
-    AnimatedSprite2D animatedSprite2D;
+    AnimatedSprite2D _animatedSprite2D;
+    TimeManager _timeManager;
+    String playingAnimation = "idle";
 
     public override void _Ready()
     {
-        animatedSprite2D = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
+        _animatedSprite2D = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
+        _timeManager = GetNode<TimeManager>("/root/Game/TimeManager");
     }
-    public int GetDirection()
+    public int GetVelocityDirection()
     {
         if (Velocity.Length() < 0.5f)
             return 0;
 
         return Velocity.X > 0 ? 1 : -1;
     }
-    
+
     public override void _Process(double delta)
     {
         Vector2 center = Vector2.Zero;
@@ -60,17 +64,26 @@ public partial class Animal : CharacterBody2D
         Velocity = Velocity.Lerp(_targetVelocity, 0.1f);
         MoveAndSlide();
 
-        if(GetDirection() == 0)
+        UpdateAnimation();
+    }
+
+    private void UpdateAnimation()
+    {
+        if (GetVelocityDirection() == 0)
         {
-            animatedSprite2D.Play("idle");
+            if (_timeManager.CurrentTimeOfDay == TimeManager.TimeOfDay.Night)
+            {
+                _animatedSprite2D.Play("sleeping");
+            }
+            else
+                _animatedSprite2D.Play("idle");
         }
         else
         {
-            animatedSprite2D.Play("running");
-            animatedSprite2D.FlipH = GetDirection() != 1;
+            _animatedSprite2D.Play("running");
+            _animatedSprite2D.FlipH = GetVelocityDirection() != 1;
         }
     }
-
 
     private void _on_area_2d_body_entered(Node2D body)
     {
