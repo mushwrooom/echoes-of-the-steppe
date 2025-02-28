@@ -1,5 +1,6 @@
 using Godot;
 using System;
+using System.Collections.Generic;
 using System.Runtime;
 
 public partial class HUD : CanvasLayer
@@ -16,6 +17,9 @@ public partial class HUD : CanvasLayer
 	[Export] public VBoxContainer Prompt;
 	[Export] public Label MessageLabel;
 	[Export] public Button RestartButton;
+	[Export] public OptionButton CheatWeather;
+	[Export] public OptionButton CheatTime;
+	[Export] public OptionButton CheatSeason;
 	public int sheepCount = 0;
 
 	private TimeManager timeManager;
@@ -60,5 +64,19 @@ public partial class HUD : CanvasLayer
 	private void OnRestartButtonPressed()
 	{
 		EmitSignal(SignalName.EndGame);
+	}
+
+	private void CheatWeatherSelected(int index)
+	{
+		Utils.Instance.WeatherSystem.CurrentWeather = (WeatherSystem.WeatherType)index;
+		Utils.Instance.WeatherSystem.ApplyWeather();
+	}
+	private void CheatSeasonSelected(int index)
+	{
+		Utils.Instance.TimeManager.CurrentSeason = (TimeManager.Season)index;
+	}
+	private void CheatTimeSelected(int index)
+	{
+		Utils.Instance.TimeManager.CurrentTimeOfDay = (TimeManager.TimeOfDay)index;
 	}
 }

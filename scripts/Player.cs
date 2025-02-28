@@ -3,9 +3,9 @@ using System;
 
 public partial class Player : CharacterBody2D
 {
-    [Export] public float Speed { get; set; } = 200.0f;
-    [Export] public float HerdRadius = 120.0f;
-    [Export] public float InfluenceStrength = 0.5f;
+    public float Speed { get; set; } = 200.0f;
+    public float HerdRadius = 120.0f;
+    public float InfluenceStrength = 0.5f;
     AnimatedSprite2D animatedSprite2D;
     private bool _isSleeping = false;
     private bool onWater = false;
@@ -30,6 +30,10 @@ public partial class Player : CharacterBody2D
 
     public override void _PhysicsProcess(double delta)
     {
+        if(Utils.Instance.WeatherSystem.CurrentWeather == WeatherSystem.WeatherType.Sunny)
+            Speed = 200;
+        else
+            Speed = 140;
         GetInput();
         MoveAndSlide();
     }
@@ -46,7 +50,8 @@ public partial class Player : CharacterBody2D
             animatedSprite2D.FlipH = GetDirection() != 1;
         }
 
-        if(onWater)  {
+        if (onWater)
+        {
 
         }
     }

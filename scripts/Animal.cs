@@ -103,7 +103,25 @@ public partial class Animal : CharacterBody2D
 
     private void UpdateStats(float delta)
     {
-        float rechargeRate = 5;
+        float rechargeRate = 3;
+        float drainRate = 1;
+
+        switch (Utils.Instance.WeatherSystem.CurrentWeather)
+        {
+            case WeatherSystem.WeatherType.Snowy:
+                drainRate = 2;
+                break;
+            case WeatherSystem.WeatherType.Rainy:
+                drainRate = 1.3f;
+                break;
+            case WeatherSystem.WeatherType.Sunny:
+                drainRate = 1;
+                rechargeRate = 4;
+                break;
+            case WeatherSystem.WeatherType.ExtremeCold:
+                drainRate = 2.5f;
+                break;
+        }
 
         bool willGraze = !Utils.Instance.IsNight() &&
                          GetVelocityDirection() == 0 &&
@@ -111,10 +129,10 @@ public partial class Animal : CharacterBody2D
 
 
         hunger = willGraze ? Mathf.Min(hunger + rechargeRate * delta, 100) :
-                             Mathf.Max(hunger - delta, 0);
+                             Mathf.Max(hunger - drainRate * delta, 0);
 
         thirst = nearWater ? Mathf.Min(thirst + rechargeRate * delta, 100) :
-                             Mathf.Max(thirst - delta, 0);
+                             Mathf.Max(thirst - drainRate * delta, 0);
 
 
         _hungerBar.Visible = willGraze || hunger < 50;

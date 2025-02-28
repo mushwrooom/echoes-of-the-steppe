@@ -11,8 +11,8 @@ public partial class TimeManager : Node
     public float _currentTime = 0;
 
     public int CurrentDay = 0;
-    public TimeOfDay CurrentTimeOfDay { get; private set; } = TimeOfDay.Morning;
-    public Season CurrentSeason { get; private set; } = Season.Spring;
+    public TimeOfDay CurrentTimeOfDay { get; set; } = TimeOfDay.Morning;
+    public Season CurrentSeason { get; set; } = Season.Spring;
 
     [Signal] public delegate void TimeOfDayChangedEventHandler(int newTime);
     [Signal] public delegate void SeasonChangedEventHandler(int newSeason);

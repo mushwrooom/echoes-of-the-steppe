@@ -63,10 +63,10 @@ position_smoothing_enabled = true
 [node name="RainEffect" type="CPUParticles2D" parent="Player/Camera2D"]
 position = Vector2(0, -200)
 emitting = false
-amount = 80
+amount = 70
 texture = ExtResource("11_hwqjf")
 emission_shape = 3
-emission_rect_extents = Vector2(400, 0)
+emission_rect_extents = Vector2(550, 0)
 gravity = Vector2(100, 980)
 angle_min = 45.0
 angle_max = 65.0
@@ -78,12 +78,14 @@ emitting = false
 amount = 40
 lifetime = 1.5
 emission_shape = 3
-emission_rect_extents = Vector2(400, 0)
+emission_rect_extents = Vector2(550, 0)
 gravity = Vector2(100, 480)
 scale_amount_max = 4.0
 
-[node name="WeatherSystem" type="Node" parent="."]
+[node name="WeatherSystem" type="Node" parent="." node_paths=PackedStringArray("RainParticle", "SnowParticle")]
 script = ExtResource("5_s1yc1")
+RainParticle = NodePath("../Player/Camera2D/RainEffect")
+SnowParticle = NodePath("../Player/Camera2D/SnowEffect")
 
 [node name="TimeManager" type="Node" parent="."]
 script = ExtResource("6_empg8")

@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" path="res://scripts/HUD.cs" id="1_c6ya7"]
 
-[node name="Hud" type="CanvasLayer" node_paths=PackedStringArray("DayLabel", "TimeLabel", "SeasonLabel", "WeatherLabel", "SheepCountLabel", "Prompt", "MessageLabel", "RestartButton")]
+[node name="Hud" type="CanvasLayer" node_paths=PackedStringArray("DayLabel", "TimeLabel", "SeasonLabel", "WeatherLabel", "SheepCountLabel", "Prompt", "MessageLabel", "RestartButton", "CheatWeather", "CheatTime", "CheatSeason")]
 script = ExtResource("1_c6ya7")
 DayLabel = NodePath("Chrono/DayCount")
 TimeLabel = NodePath("Chrono/Time")
@@ -12,6 +12,9 @@ SheepCountLabel = NodePath("SheepCount")
 Prompt = NodePath("Prompt")
 MessageLabel = NodePath("Prompt/Message")
 RestartButton = NodePath("Prompt/Button")
+CheatWeather = NodePath("Cheats/HBoxContainer/Weather")
+CheatTime = NodePath("Cheats/HBoxContainer/Time")
+CheatSeason = NodePath("Cheats/HBoxContainer/Season")
 
 [node name="SheepCount" type="Label" parent="."]
 anchors_preset = 1
@@ -75,4 +78,90 @@ layout_mode = 2
 size_flags_horizontal = 4
 text = "Restart"
 
+[node name="Cheats" type="VBoxContainer" parent="."]
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -40.0
+offset_top = -47.0
+grow_horizontal = 0
+grow_vertical = 0
+
+[node name="Label" type="Label" parent="Cheats"]
+layout_mode = 2
+size_flags_horizontal = 8
+theme_override_font_sizes/font_size = 32
+text = "Cheats"
+
+[node name="Button" type="Button" parent="Cheats"]
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 4
+text = "Restart"
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="Cheats"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_constants/separation = 70
+alignment = 1
+
+[node name="Label" type="Label" parent="Cheats/HBoxContainer2"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 16
+text = "Weather"
+
+[node name="Label2" type="Label" parent="Cheats/HBoxContainer2"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 16
+text = "Time"
+
+[node name="Label3" type="Label" parent="Cheats/HBoxContainer2"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 16
+text = "Season"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Cheats"]
+layout_mode = 2
+
+[node name="Weather" type="OptionButton" parent="Cheats/HBoxContainer"]
+layout_mode = 2
+item_count = 5
+popup/item_0/text = "Sunny"
+popup/item_1/text = "Rainy"
+popup/item_1/id = 1
+popup/item_2/text = "Snowy"
+popup/item_2/id = 2
+popup/item_3/text = "Strom"
+popup/item_3/id = 3
+popup/item_4/text = "ExtremeCold"
+popup/item_4/id = 4
+
+[node name="Time" type="OptionButton" parent="Cheats/HBoxContainer"]
+layout_mode = 2
+item_count = 4
+popup/item_0/text = "Morning"
+popup/item_1/text = "Afternoon"
+popup/item_1/id = 1
+popup/item_2/text = "Evening"
+popup/item_2/id = 2
+popup/item_3/text = "Night"
+popup/item_3/id = 3
+
+[node name="Season" type="OptionButton" parent="Cheats/HBoxContainer"]
+layout_mode = 2
+item_count = 4
+popup/item_0/text = "Spring"
+popup/item_1/text = "Summer"
+popup/item_1/id = 1
+popup/item_2/text = "Fall"
+popup/item_2/id = 2
+popup/item_3/text = "Winter"
+popup/item_3/id = 3
+
 [connection signal="pressed" from="Prompt/Button" to="." method="OnRestartButtonPressed"]
+[connection signal="pressed" from="Cheats/Button" to="." method="OnRestartButtonPressed"]
+[connection signal="item_selected" from="Cheats/HBoxContainer/Weather" to="." method="CheatWeatherSelected"]
+[connection signal="item_selected" from="Cheats/HBoxContainer/Time" to="." method="CheatTimeSelected"]
+[connection signal="item_selected" from="Cheats/HBoxContainer/Season" to="." method="CheatSeasonSelected"]
