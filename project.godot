@@ -26,6 +26,7 @@ project/assembly_name="Echoes of the Steppe"
 [global_group]
 
 animals=""
+fencedAreas=""
 
 [input]
 

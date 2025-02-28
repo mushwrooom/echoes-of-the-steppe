@@ -3,26 +3,34 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO.IsolatedStorage;
+using System.Linq.Expressions;
 
 public partial class Animal : CharacterBody2D
 {
-    [Export] public float Speed = 30.0f;
+    [Export] public float Speed = 40.0f;
     [Export] public float DetectionRadius = 50.0f;
     [Export] public float CohesionStrength = 1.0f;
 
+    [Signal] public delegate void AnimalDiedEventHandler(Animal animal);
+    public Area2D CurrentFencedArea = null;
+
     float hunger = 100;
+    float thirst = 100;
 
 
     Vector2 _targetVelocity = Vector2.Zero;
     Player _player = null;
     AnimatedSprite2D _animatedSprite2D;
     ProgressBar _hungerBar;
+    ProgressBar _thirstBar;
     bool isOnPasture = false;
+    bool nearWater = false;
 
     public override void _Ready()
     {
         _animatedSprite2D = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
-        _hungerBar = GetNode<ProgressBar>("HungerBar");
+        _hungerBar = GetNode<ProgressBar>("Stats/HungerBar");
+        _thirstBar = GetNode<ProgressBar>("Stats/ThirstBar");
     }
     public int GetVelocityDirection()
     {
@@ -68,7 +76,7 @@ public partial class Animal : CharacterBody2D
         MoveAndSlide();
 
         UpdateAnimation();
-        UpdateHunger((float)delta);
+        UpdateStats((float)delta);
     }
 
     private void UpdateAnimation()
@@ -79,7 +87,7 @@ public partial class Animal : CharacterBody2D
             {
                 _animatedSprite2D.Play("sleeping");
             }
-            else if (isOnPasture)
+            else if (isOnPasture || nearWater)
             {
                 _animatedSprite2D.Play("grazing");
             }
@@ -93,36 +101,67 @@ public partial class Animal : CharacterBody2D
         }
     }
 
-    private void UpdateHunger(float delta)
+    private void UpdateStats(float delta)
     {
+        float rechargeRate = 5;
+
         bool willGraze = !Utils.Instance.IsNight() &&
+                         GetVelocityDirection() == 0 &&
                          isOnPasture && hunger < 100;
 
-        if (willGraze)
-        {
-            hunger = Mathf.Min(hunger + 2 * delta, 100);
-        }
-        else
-        {
-            hunger = Mathf.Max(hunger - delta, 0);
-        }
+
+        hunger = willGraze ? Mathf.Min(hunger + rechargeRate * delta, 100) :
+                             Mathf.Max(hunger - delta, 0);
+
+        thirst = nearWater ? Mathf.Min(thirst + rechargeRate * delta, 100) :
+                             Mathf.Max(thirst - delta, 0);
+
 
         _hungerBar.Visible = willGraze || hunger < 50;
         _hungerBar.Value = _hungerBar.MaxValue * (hunger / 100.0f);
+
+        _thirstBar.Visible = nearWater || thirst < 50;
+        _thirstBar.Value = _thirstBar.MaxValue * (thirst / 100.0f);
+
+        CheckDeath();
+    }
+
+    private void CheckDeath()
+    {
+        if (thirst <= 0 || hunger <= 0)
+        {
+            EmitSignal(SignalName.AnimalDied, this);
+        }
+        else if (Utils.Instance.TimeManager.CurrentSeason == TimeManager.Season.Winter &&
+                 CurrentFencedArea == null && Utils.Instance.IsNight())
+        {
+            EmitSignal(SignalName.AnimalDied, this);
+        }
     }
 
     private void _on_area_2d_body_entered(Node2D body)
     {
         if (body is Player player)
             _player = player;
-        else if (body.Name == "Pasture")
-            isOnPasture = true;
     }
     private void _on_area_2d_body_exited(Node2D body)
     {
         if (body is Player _)
             _player = null;
-        else if (body.Name == "Pasture")
+    }
+
+    private void _on_interact_area_body_entered(Node2D body)
+    {
+        if (body.Name == "Pasture")
+            isOnPasture = true;
+        else
+            nearWater = true;
+    }
+    private void _on_interact_area_body_exited(Node2D body)
+    {
+        if (body.Name == "Pasture")
             isOnPasture = false;
+        else
+            nearWater = false;
     }
 }

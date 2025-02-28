@@ -1,15 +1,16 @@
 using Godot;
 using System;
+using System.Collections.Generic;
 
 public partial class WeatherSystem : Node
 {
 	public enum WeatherType { Sunny, Rainy, Snowy, Storm, ExtremeCold }
 
-	[Export] public float WeatherChangeInterval = 60.0f; // Change weather every minute
+	[Export] public float WeatherChangeInterval = 60.0f;
 	private float _timer = 0;
 
+	private List<WeatherType> possibleTypes = new();
 	public WeatherType CurrentWeather { get; private set; } = WeatherType.Sunny;
-	private Random _random = new Random();
 
 	[Signal] public delegate void WeatherChangedEventHandler(WeatherType newWeather);
 
@@ -25,7 +26,7 @@ public partial class WeatherSystem : Node
 
 	private void ChangeWeather()
 	{
-		CurrentWeather = (WeatherType)_random.Next(0, Enum.GetValues(typeof(WeatherType)).Length);
+		CurrentWeather = Utils.GetRandomElement(possibleTypes);
 		GD.Print("Weather changed to: " + CurrentWeather);
 	}
 
@@ -34,20 +35,27 @@ public partial class WeatherSystem : Node
 		switch (newSeason)
 		{
 			case TimeManager.Season.Spring:
-				// More rain, mild temperature
-				WeatherChangeInterval = 45.0f;
+				possibleTypes.Clear();
+				possibleTypes.Add(WeatherType.Sunny);
+				possibleTypes.Add(WeatherType.Snowy);
+				possibleTypes.Add(WeatherType.Rainy);
+    			possibleTypes.Add(WeatherType.ExtremeCold);
 				break;
 			case TimeManager.Season.Summer:
-				// Mostly sunny, sometimes storms
-				WeatherChangeInterval = 60.0f;
+				possibleTypes.Clear();
+				possibleTypes.Add(WeatherType.Sunny);
+				possibleTypes.Add(WeatherType.Rainy);
 				break;
 			case TimeManager.Season.Fall:
-				// Increasing cold, mix of rain and sun
-				WeatherChangeInterval = 50.0f;
+				possibleTypes.Clear();
+    			possibleTypes.Add(WeatherType.Rainy);
+    			possibleTypes.Add(WeatherType.Snowy);
+    			possibleTypes.Add(WeatherType.ExtremeCold);
 				break;
 			case TimeManager.Season.Winter:
-				// Heavy snow, extreme cold
-				WeatherChangeInterval = 30.0f;
+				possibleTypes.Clear();
+    			possibleTypes.Add(WeatherType.Snowy);
+    			possibleTypes.Add(WeatherType.ExtremeCold);
 				break;
 		}
 	}

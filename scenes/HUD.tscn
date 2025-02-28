@@ -1,0 +1,78 @@
+[gd_scene load_steps=2 format=3 uid="uid://b2gbl4xqijqki"]
+
+[ext_resource type="Script" path="res://scripts/HUD.cs" id="1_c6ya7"]
+
+[node name="Hud" type="CanvasLayer" node_paths=PackedStringArray("DayLabel", "TimeLabel", "SeasonLabel", "WeatherLabel", "SheepCountLabel", "Prompt", "MessageLabel", "RestartButton")]
+script = ExtResource("1_c6ya7")
+DayLabel = NodePath("Chrono/DayCount")
+TimeLabel = NodePath("Chrono/Time")
+SeasonLabel = NodePath("Chrono/Season")
+WeatherLabel = NodePath("Chrono/Weather")
+SheepCountLabel = NodePath("SheepCount")
+Prompt = NodePath("Prompt")
+MessageLabel = NodePath("Prompt/Message")
+RestartButton = NodePath("Prompt/Button")
+
+[node name="SheepCount" type="Label" parent="."]
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -239.0
+offset_bottom = 88.0
+grow_horizontal = 0
+theme_override_font_sizes/font_size = 64
+text = "2 sheep"
+
+[node name="Chrono" type="VBoxContainer" parent="."]
+offset_right = 226.0
+offset_bottom = 94.0
+theme_override_constants/separation = 10
+
+[node name="DayCount" type="Label" parent="Chrono"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+text = "Day: 0"
+
+[node name="Time" type="Label" parent="Chrono"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+text = "Time: Morning"
+
+[node name="Season" type="Label" parent="Chrono"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+text = "Season: Spring"
+
+[node name="Weather" type="Label" parent="Chrono"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+text = "Weather: Sunny"
+
+[node name="Prompt" type="VBoxContainer" parent="."]
+visible = false
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -146.0
+offset_top = -50.0
+offset_right = 146.0
+offset_bottom = 50.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+
+[node name="Message" type="Label" parent="Prompt"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.93828, 0, 0.441247, 1)
+theme_override_font_sizes/font_size = 64
+text = "You Won!"
+
+[node name="Button" type="Button" parent="Prompt"]
+layout_mode = 2
+size_flags_horizontal = 4
+text = "Restart"
+
+[connection signal="pressed" from="Prompt/Button" to="." method="OnRestartButtonPressed"]

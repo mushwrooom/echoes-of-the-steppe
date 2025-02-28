@@ -8,6 +8,7 @@ public partial class Player : CharacterBody2D
     [Export] public float InfluenceStrength = 0.5f;
     AnimatedSprite2D animatedSprite2D;
     private bool _isSleeping = false;
+    private bool onWater = false;
 
     public override void _Ready()
     {
@@ -44,15 +45,20 @@ public partial class Player : CharacterBody2D
             animatedSprite2D.Play("running");
             animatedSprite2D.FlipH = GetDirection() != 1;
         }
+
+        if(onWater)  {
+
+        }
     }
 
     public void Sleep()
     {
-        if (GetNode<TimeManager>("/root/Game/TimeManager").CurrentTimeOfDay == TimeManager.TimeOfDay.Night)
+        if (!_isSleeping && Utils.Instance.IsNight())
         {
             GD.Print("Sleeping...");
             _isSleeping = true;
-            GetNode<TimeManager>("/root/Game/TimeManager").ChangeTimeOfDay(); // Skip to morning
+            Utils.Instance.TimeManager._currentTime = Utils.Instance.TimeManager.DayLength;
+            Utils.Instance.TimeManager.ChangeTimeOfDay();
             _isSleeping = false;
         }
         else
@@ -63,19 +69,20 @@ public partial class Player : CharacterBody2D
 
     private void _on_area_2d_body_entered(Node2D body)
     {
-        if (body.Name == "Ger")
+        if (!_isSleeping && body.Name == "Ger")
         {
             Sleep();
-
+        }
+        else if (body is TileMapLayer)
+        {
+            onWater = true;
         }
     }
-
-    private void OnTimeOfDayChanged(int newTime)
+    private void _on_area_2d_body_exited(Node2D body)
     {
-        if ((TimeManager.TimeOfDay)newTime == TimeManager.TimeOfDay.Night
-            && !_isSleeping)
+        if (body is TileMapLayer)
         {
-            GD.Print("Go to bed!");
+            onWater = false;
         }
     }
 }
