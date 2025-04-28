@@ -1,0 +1,33 @@
+[gd_scene load_steps=7 format=3 uid="uid://cohq5dmjjh2vf"]
+
+[ext_resource type="Script" path="res://Scripts/Main.cs" id="1_mpaia"]
+[ext_resource type="PackedScene" uid="uid://nw0t370e0klf" path="res://Scenes/WorldMap.tscn" id="2_8mwdy"]
+[ext_resource type="PackedScene" uid="uid://djjirtv0p3gsy" path="res://Scenes/ChunkPreview.tscn" id="3_x5shf"]
+[ext_resource type="PackedScene" uid="uid://dgg16mc71hxr1" path="res://Scenes/UI/MapUI.tscn" id="4_nl473"]
+[ext_resource type="PackedScene" uid="uid://b20upsdivv3c8" path="res://Scenes/UI/InventoryUI.tscn" id="5_wcbm1"]
+[ext_resource type="PackedScene" uid="uid://byif03kqxt24i" path="res://Scenes/UI/NeighborDialog.tscn" id="6_rsteo"]
+
+[node name="Main" type="Node" node_paths=PackedStringArray("WorldMap", "ChunkPreview")]
+script = ExtResource("1_mpaia")
+WorldMap = NodePath("WorldMap")
+ChunkPreview = NodePath("ChunkPreview")
+
+[node name="WorldMap" parent="." instance=ExtResource("2_8mwdy")]
+
+[node name="ChunkPreview" parent="." instance=ExtResource("3_x5shf")]
+
+[node name="UI" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="MapUi" parent="UI" instance=ExtResource("4_nl473")]
+
+[node name="InventoryUi" parent="UI" instance=ExtResource("5_wcbm1")]
+
+[node name="NeighborDialog" parent="UI" instance=ExtResource("6_rsteo")]
+
+[node name="Audio" type="AudioStreamPlayer" parent="."]
+
+[node name="Camera2D" type="Camera2D" parent="."]

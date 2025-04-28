@@ -1,0 +1,12 @@
+[gd_scene load_steps=2 format=3 uid="uid://nw0t370e0klf"]
+
+[ext_resource type="Script" path="res://Scripts/WorldMap.cs" id="1_hlswr"]
+
+[node name="WorldMap" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+script = ExtResource("1_hlswr")
+
+[node name="TileMap" type="TileMapLayer" parent="."]
+
+[node name="MapCamera" type="Camera2D" parent="."]

@@ -1,0 +1,38 @@
+[gd_scene load_steps=2 format=3 uid="uid://djjirtv0p3gsy"]
+
+[ext_resource type="Script" path="res://Scripts/Chunk.cs" id="1_0slsm"]
+
+[node name="ChunkPreview" type="Control" node_paths=PackedStringArray("WeatherLabel", "AnimalList", "MoveButton", "InvestigateButton")]
+layout_mode = 3
+anchors_preset = 0
+script = ExtResource("1_0slsm")
+WeatherLabel = NodePath("WeatherLabel")
+AnimalList = NodePath("AnimalList")
+MoveButton = NodePath("ActionButtons/MoveButton")
+InvestigateButton = NodePath("ActionButtons/InvestigateButton")
+
+[node name="ChunkInfoLabel" type="Control" parent="."]
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="AnimalList" type="VBoxContainer" parent="."]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="ActionButtons" type="VBoxContainer" parent="."]
+layout_mode = 0
+offset_right = 400.0
+offset_bottom = 400.0
+
+[node name="MoveButton" type="Button" parent="ActionButtons"]
+layout_mode = 2
+
+[node name="InvestigateButton" type="Button" parent="ActionButtons"]
+layout_mode = 2
+
+[node name="WeatherLabel" type="Label" parent="."]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 23.0

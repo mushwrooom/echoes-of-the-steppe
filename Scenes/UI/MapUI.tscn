@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://dgg16mc71hxr1"]
+
+[ext_resource type="Script" path="res://Scripts/MapUI.cs" id="1_b6u47"]
+
+[node name="MapUI" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+script = ExtResource("1_b6u47")
