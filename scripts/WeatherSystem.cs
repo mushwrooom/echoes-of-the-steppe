@@ -60,14 +60,14 @@ public partial class WeatherSystem : Node
 				break;
 		}
 	}
-	private void ChangeWeather()
+	public void ChangeWeather()
 	{
 		CurrentWeather = Utils.GetRandomElement(possibleTypes);
 		ApplyWeather();
 		GD.Print("Weather changed to: " + CurrentWeather);
 	}
 
-	private void OnSeasonChanged(TimeManager.Season newSeason)
+	public void OnSeasonChanged(TimeManager.Season newSeason)
 	{
 		switch (newSeason)
 		{

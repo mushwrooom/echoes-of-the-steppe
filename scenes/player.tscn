@@ -74,7 +74,7 @@ animations = [{
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_hsqh2"]
 
-[node name="Player" type="CharacterBody2D"]
+[node name="Player" type="CharacterBody2D" groups=["player"]]
 collision_layer = 16
 collision_mask = 48
 script = ExtResource("1_ji70a")

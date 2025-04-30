@@ -119,6 +119,7 @@ public partial class GameManager : Node2D
 		newAnimal.CurrentFencedArea = area;
 		_HUD.AddSheepCount(1);
 		newAnimal.AnimalDied += OnAnimalDied;
+		Utils.Instance.player.inventory.AddItem("Milk", 1);
 	}
 
 	private void CheckGameCondition()

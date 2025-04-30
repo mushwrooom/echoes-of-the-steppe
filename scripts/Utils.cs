@@ -7,7 +7,7 @@ public partial class Utils : Node
 	public static Utils Instance { get; private set; }
 	[Export] public TimeManager TimeManager;
 	[Export] public WeatherSystem WeatherSystem;
-
+	[Export] public Player player;
 
 	private static readonly Random random = new();
 	public override void _Ready()

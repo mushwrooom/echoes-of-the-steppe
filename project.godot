@@ -23,10 +23,39 @@ Utils="*res://scripts/Utils.cs"
 
 project/assembly_name="Echoes of the Steppe"
 
+[editor_plugins]
+
+enabled=PackedStringArray("res://addons/gdUnit4/plugin.cfg")
+
+[gdunit4]
+
+templates/testsuite/CSharpScript="// GdUnit generated TestSuite
+
+using Godot;
+using GdUnit4;
+
+namespace ${name_space}
+{
+	using static Assertions;
+	using static Utils;
+
+	[TestSuite]
+	public class ${suite_class_name}
+	{
+		// TestSuite generated from
+		private const string sourceClazzPath = \"${source_resource_path}\";
+
+	}
+}
+"
+settings/test/test_lookup_folder="tests"
+settings/test/test_discovery=true
+
 [global_group]
 
 animals=""
 fencedAreas=""
+player=""
 
 [input]
 

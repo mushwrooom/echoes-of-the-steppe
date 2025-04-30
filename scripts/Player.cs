@@ -1,5 +1,6 @@
 using Godot;
 using System;
+using System.ComponentModel.DataAnnotations.Schema;
 
 public partial class Player : CharacterBody2D
 {
@@ -9,10 +10,12 @@ public partial class Player : CharacterBody2D
     AnimatedSprite2D animatedSprite2D;
     private bool _isSleeping = false;
     private bool onWater = false;
+    public Inventory inventory;
 
     public override void _Ready()
     {
         animatedSprite2D = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
+        inventory = GetNode<Inventory>("Inventory");
     }
 
     public void GetInput()
@@ -65,6 +68,7 @@ public partial class Player : CharacterBody2D
             Utils.Instance.TimeManager._currentTime = Utils.Instance.TimeManager.DayLength;
             Utils.Instance.TimeManager.ChangeTimeOfDay();
             _isSleeping = false;
+		    Utils.Instance.player.inventory.AddItem("Meat", 1);
         }
         else
         {

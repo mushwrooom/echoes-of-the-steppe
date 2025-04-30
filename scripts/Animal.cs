@@ -14,8 +14,8 @@ public partial class Animal : CharacterBody2D
     [Signal] public delegate void AnimalDiedEventHandler(Animal animal);
     public Area2D CurrentFencedArea = null;
 
-    float hunger = 100;
-    float thirst = 100;
+    public float hunger = 100;
+    public float thirst = 100;
 
 
     Vector2 _targetVelocity = Vector2.Zero;
@@ -101,7 +101,7 @@ public partial class Animal : CharacterBody2D
         }
     }
 
-    private void UpdateStats(float delta)
+    public void UpdateStats(float delta)
     {
         float rechargeRate = 3;
         float drainRate = 1;
@@ -144,7 +144,7 @@ public partial class Animal : CharacterBody2D
         CheckDeath();
     }
 
-    private void CheckDeath()
+    public void CheckDeath()
     {
         if (thirst <= 0 || hunger <= 0)
         {
@@ -155,6 +155,20 @@ public partial class Animal : CharacterBody2D
         {
             EmitSignal(SignalName.AnimalDied, this);
         }
+    }
+    private void GetHelp()
+    {
+        hunger = Mathf.Min(hunger + 50, 100);
+        thirst = Mathf.Min(thirst + 50, 100);
+    }
+    private void OfferHelp()
+    {
+        hunger = Mathf.Max(hunger - 20, 10);
+        thirst = Mathf.Max(thirst - 20, 10);
+    }
+    private void OnClothed()
+    {
+        Speed = Speed * 1.5f;
     }
 
     private void _on_area_2d_body_entered(Node2D body)

@@ -2,19 +2,23 @@
 
 [ext_resource type="Script" path="res://scripts/HUD.cs" id="1_c6ya7"]
 
-[node name="Hud" type="CanvasLayer" node_paths=PackedStringArray("DayLabel", "TimeLabel", "SeasonLabel", "WeatherLabel", "SheepCountLabel", "Prompt", "MessageLabel", "RestartButton", "CheatWeather", "CheatTime", "CheatSeason")]
+[node name="Hud" type="CanvasLayer" node_paths=PackedStringArray("DayLabel", "TimeLabel", "SeasonLabel", "WeatherLabel", "SheepCountLabel", "InventoryBox", "Prompt", "Dialogue", "Shop", "Help", "MessageLabel", "RestartButton", "CheatWeather", "CheatTime", "CheatSeason")]
 script = ExtResource("1_c6ya7")
 DayLabel = NodePath("Chrono/DayCount")
 TimeLabel = NodePath("Chrono/Time")
 SeasonLabel = NodePath("Chrono/Season")
 WeatherLabel = NodePath("Chrono/Weather")
 SheepCountLabel = NodePath("SheepCount")
+InventoryBox = NodePath("ScrollInventory/VBoxContainer")
 Prompt = NodePath("Prompt")
+Dialogue = NodePath("Dialogue")
+Shop = NodePath("Shop")
+Help = NodePath("Help")
 MessageLabel = NodePath("Prompt/Message")
 RestartButton = NodePath("Prompt/Button")
-CheatWeather = NodePath("Cheats/HBoxContainer/Weather")
-CheatTime = NodePath("Cheats/HBoxContainer/Time")
-CheatSeason = NodePath("Cheats/HBoxContainer/Season")
+CheatWeather = NodePath("Manage/HBoxContainer/Weather")
+CheatTime = NodePath("Manage/HBoxContainer/Time")
+CheatSeason = NodePath("Manage/HBoxContainer/Season")
 
 [node name="SheepCount" type="Label" parent="."]
 anchors_preset = 1
@@ -51,6 +55,19 @@ layout_mode = 2
 theme_override_font_sizes/font_size = 32
 text = "Weather: Sunny"
 
+[node name="ScrollInventory" type="ScrollContainer" parent="."]
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -160.0
+offset_right = 192.0
+grow_vertical = 0
+horizontal_scroll_mode = 0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="ScrollInventory"]
+layout_mode = 2
+alignment = 2
+
 [node name="Prompt" type="VBoxContainer" parent="."]
 visible = false
 anchors_preset = 8
@@ -78,7 +95,98 @@ layout_mode = 2
 size_flags_horizontal = 4
 text = "Restart"
 
-[node name="Cheats" type="VBoxContainer" parent="."]
+[node name="Dialogue" type="VBoxContainer" parent="."]
+visible = false
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -146.0
+offset_top = -50.0
+offset_right = 146.0
+offset_bottom = 50.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+
+[node name="Message2" type="Label" parent="Dialogue"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+text = "How may I help you?"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Dialogue"]
+layout_mode = 2
+
+[node name="Button" type="Button" parent="Dialogue/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+text = "Request Help"
+
+[node name="Button2" type="Button" parent="Dialogue/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+text = "Offer Help"
+
+[node name="Shop" type="VBoxContainer" parent="."]
+visible = false
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -75.5
+offset_top = -50.0
+offset_right = 75.5
+offset_bottom = 50.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+
+[node name="Message2" type="Label" parent="Shop"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_font_sizes/font_size = 20
+text = "Shop"
+
+[node name="Deel" type="Button" parent="Shop"]
+layout_mode = 2
+text = "Deel"
+
+[node name="Animal Clothing" type="Button" parent="Shop"]
+layout_mode = 2
+text = "Animal Clothing"
+
+[node name="Storage" type="Button" parent="Shop"]
+layout_mode = 2
+text = "Storage"
+
+[node name="Help" type="VBoxContainer" parent="."]
+visible = false
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -185.5
+offset_top = -50.0
+offset_right = 185.5
+offset_bottom = 50.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+
+[node name="Message2" type="Label" parent="Help"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_font_sizes/font_size = 20
+text = "W, A, S, D for directional movement
+Left Mouse Button for clicking buttons"
+
+[node name="Manage" type="VBoxContainer" parent="."]
 anchors_preset = 3
 anchor_left = 1.0
 anchor_top = 1.0
@@ -89,43 +197,63 @@ offset_top = -47.0
 grow_horizontal = 0
 grow_vertical = 0
 
-[node name="Label" type="Label" parent="Cheats"]
+[node name="Label" type="Label" parent="Manage"]
 layout_mode = 2
 size_flags_horizontal = 8
 theme_override_font_sizes/font_size = 32
-text = "Cheats"
+text = "Manage"
 
-[node name="Button" type="Button" parent="Cheats"]
+[node name="Button" type="Button" parent="Manage"]
 layout_mode = 2
 size_flags_horizontal = 8
 size_flags_vertical = 4
 text = "Restart"
 
-[node name="HBoxContainer2" type="HBoxContainer" parent="Cheats"]
+[node name="Migrate" type="Button" parent="Manage"]
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 4
+text = "Migrate"
+
+[node name="Shop" type="Button" parent="Manage"]
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 4
+text = "Shop"
+
+[node name="Help" type="Button" parent="Manage"]
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 4
+text = "Help"
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="Manage"]
+visible = false
 layout_mode = 2
 size_flags_horizontal = 4
 theme_override_constants/separation = 70
 alignment = 1
 
-[node name="Label" type="Label" parent="Cheats/HBoxContainer2"]
+[node name="Label" type="Label" parent="Manage/HBoxContainer2"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 16
 text = "Weather"
 
-[node name="Label2" type="Label" parent="Cheats/HBoxContainer2"]
+[node name="Label2" type="Label" parent="Manage/HBoxContainer2"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 16
 text = "Time"
 
-[node name="Label3" type="Label" parent="Cheats/HBoxContainer2"]
+[node name="Label3" type="Label" parent="Manage/HBoxContainer2"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 16
 text = "Season"
 
-[node name="HBoxContainer" type="HBoxContainer" parent="Cheats"]
+[node name="HBoxContainer" type="HBoxContainer" parent="Manage"]
+visible = false
 layout_mode = 2
 
-[node name="Weather" type="OptionButton" parent="Cheats/HBoxContainer"]
+[node name="Weather" type="OptionButton" parent="Manage/HBoxContainer"]
 layout_mode = 2
 item_count = 5
 popup/item_0/text = "Sunny"
@@ -138,7 +266,7 @@ popup/item_3/id = 3
 popup/item_4/text = "ExtremeCold"
 popup/item_4/id = 4
 
-[node name="Time" type="OptionButton" parent="Cheats/HBoxContainer"]
+[node name="Time" type="OptionButton" parent="Manage/HBoxContainer"]
 layout_mode = 2
 item_count = 4
 popup/item_0/text = "Morning"
@@ -149,7 +277,7 @@ popup/item_2/id = 2
 popup/item_3/text = "Night"
 popup/item_3/id = 3
 
-[node name="Season" type="OptionButton" parent="Cheats/HBoxContainer"]
+[node name="Season" type="OptionButton" parent="Manage/HBoxContainer"]
 layout_mode = 2
 item_count = 4
 popup/item_0/text = "Spring"
@@ -161,7 +289,15 @@ popup/item_3/text = "Winter"
 popup/item_3/id = 3
 
 [connection signal="pressed" from="Prompt/Button" to="." method="OnRestartButtonPressed"]
-[connection signal="pressed" from="Cheats/Button" to="." method="OnRestartButtonPressed"]
-[connection signal="item_selected" from="Cheats/HBoxContainer/Weather" to="." method="CheatWeatherSelected"]
-[connection signal="item_selected" from="Cheats/HBoxContainer/Time" to="." method="CheatTimeSelected"]
-[connection signal="item_selected" from="Cheats/HBoxContainer/Season" to="." method="CheatSeasonSelected"]
+[connection signal="pressed" from="Dialogue/HBoxContainer/Button" to="." method="RequestHelp"]
+[connection signal="pressed" from="Dialogue/HBoxContainer/Button2" to="." method="OfferHelp"]
+[connection signal="pressed" from="Shop/Deel" to="." method="BuyDeel"]
+[connection signal="pressed" from="Shop/Animal Clothing" to="." method="BuyAnimalClothing"]
+[connection signal="pressed" from="Shop/Storage" to="." method="BuyStorage"]
+[connection signal="pressed" from="Manage/Button" to="." method="OnRestartButtonPressed"]
+[connection signal="pressed" from="Manage/Migrate" to="." method="OnMigrateButtonPressed"]
+[connection signal="pressed" from="Manage/Shop" to="." method="OnShopButtonPressed"]
+[connection signal="pressed" from="Manage/Help" to="." method="OnHelpButtonPressed"]
+[connection signal="item_selected" from="Manage/HBoxContainer/Weather" to="." method="CheatWeatherSelected"]
+[connection signal="item_selected" from="Manage/HBoxContainer/Time" to="." method="CheatTimeSelected"]
+[connection signal="item_selected" from="Manage/HBoxContainer/Season" to="." method="CheatSeasonSelected"]

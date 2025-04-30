@@ -53,5 +53,7 @@ public partial class TimeManager : Node
         CurrentSeason = (Season)(((int)CurrentSeason + 1) % Enum.GetValues(typeof(Season)).Length);
         GD.Print($"Season changed to: {CurrentSeason}");
         EmitSignal(SignalName.SeasonChanged, (int)CurrentSeason);
+        
+		Utils.Instance.player.inventory.AddItem("Wool", 1);
     }
 }
